@@ -1,0 +1,23 @@
+button {
+    align-items: normal;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: none;
+    box-sizing: content-box;
+    cursor: pointer;
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    font: inherit;
+    padding: 0;
+    perspective-origin: 0 0;
+    text-align: start;
+    text-decoration: underline;
+    transform-origin: 0 0;
+    -moz-appearance: none;
+    -webkit-logical-height: 1em;
+    -webkit-logical-width: auto;
+}
+
+button:focus {
+    outline: none;
+}
