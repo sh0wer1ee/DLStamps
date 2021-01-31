@@ -95,5 +95,5 @@ def main(sid, resVer):
     print('time spent: ' + str(end-start))
 
 if __name__ == '__main__':
-    for sid in ['12301', '12302']:
-        main(sid, '20201231_SAcWiaRBfYDT4FGS')
+    for sid in ['12401', '12402', '12403', '12404', '12405']:
+        main(sid, '20210131_lqfRBhj2APlqf8RC')
