@@ -3,7 +3,7 @@ import asyncio
 import os
 import re
 import shutil
-from UnityPy import AssetsManager
+import UnityPy
 import json
 import timeit
 from PIL import Image
@@ -62,15 +62,14 @@ def dumpStamps():
 
 def dumpStampFromAsset(filepath, sid, lang, isFramed):
     imageData = {}
-    am = AssetsManager(filepath)
-    for asset in am.assets.values():
-        for o in asset.objects.values():
-            data = o.read()
-            if str(data.type) == 'Texture2D':
-                if 'alpha' in str(data.name):
-                    imageData['a8'] = data.image
-                else:
-                    imageData['img'] = data.image
+    env = UnityPy.load(filepath)
+    for obj in env.objects:
+        data = obj.read()
+        if str(data.type) == 'Texture2D':
+            if 'alpha' in str(data.name):
+                imageData['a8'] = data.image
+            else:
+                imageData['img'] = data.image
     frame = 'framed' if isFramed else 'normal'
     filepath = os.path.join(IMG, '%s\\%s\\%s.png' % (lang, frame, sid))
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
