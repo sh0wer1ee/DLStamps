@@ -21,10 +21,10 @@ os.makedirs(ASSETS, exist_ok=True)
 
 def loadStampsUrl(sid, resVer):
     assetbundle = {
-    'jp':f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.manifest',
-    'zh_cn':f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.zh_cn.manifest',
-    'zh_tw':f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.zh_tw.manifest',
-    'en_us':f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.en_us.manifest'}
+        'jp': f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.manifest',
+        'zh_cn': f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.zh_cn.manifest',
+        'zh_tw': f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.zh_tw.manifest',
+        'en_us': f'../DLScripts/prs_manifests_archive/{resVer}/assetbundle.en_us.manifest'}
     stamp = {}
     for lang in assetbundle:
         with open(assetbundle[lang], 'r', encoding='utf-8') as m:
@@ -37,20 +37,23 @@ def loadStampsUrl(sid, resVer):
             m.close()
     return stamp
 
+
 async def download(session, url, filename):
-    async with session.get(url, proxy = http_proxy) as resp:
+    async with session.get(url, proxy=http_proxy) as resp:
         if resp.status != 200:
             print(filename, ': download failed.')
         else:
             with open(os.path.join(ASSETS, filename), 'wb') as f:
                 f.write(await resp.read())
 
+
 async def downloadStamps(stamp):
     async with aiohttp.ClientSession() as session:
-            await asyncio.gather(*[
-                download(session, stamp[s], s)
-                for s in stamp               
-            ])
+        await asyncio.gather(*[
+            download(session, stamp[s], s)
+            for s in stamp
+        ])
+
 
 def dumpStamps():
     for f in os.listdir(ASSETS):
@@ -59,6 +62,7 @@ def dumpStamps():
         isFramed = True if f.split('-')[2] == 'framed' else False
         dumpStampFromAsset(os.path.join(ASSETS, f), sid, lang, isFramed)
     print('parse complete.')
+
 
 def dumpStampFromAsset(filepath, sid, lang, isFramed):
     imageData = {}
@@ -75,11 +79,13 @@ def dumpStampFromAsset(filepath, sid, lang, isFramed):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     combineA8(imageData).save(filepath)
 
+
 def combineA8(imageData):
-    (w,h) = imageData['img'].size
-    (z,z,z,a) = imageData['a8'].resize((w,h), Image.ANTIALIAS).split()
-    (r,g,b) = imageData['img'].split()
-    return Image.merge("RGBA", (r,g,b,a))
+    (w, h) = imageData['img'].size
+    (z, z, z, a) = imageData['a8'].resize((w, h), Image.ANTIALIAS).split()
+    (r, g, b) = imageData['img'].split()
+    return Image.merge("RGBA", (r, g, b, a))
+
 
 def main(sid, resVer):
     start = timeit.default_timer()
@@ -93,6 +99,7 @@ def main(sid, resVer):
     end = timeit.default_timer()
     print('time spent: ' + str(end-start))
 
+
 if __name__ == '__main__':
-    for sid in ['12701', '12702']:
-        main(sid, '20210412_725KSe0jjK7dUQZq')
+    for sid in ['12801', '12802']:
+        main(sid, '20210712_8KoUb8Dh71LI4SZS')
