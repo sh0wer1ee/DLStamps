@@ -101,5 +101,5 @@ def main(sid, resVer):
 
 
 if __name__ == '__main__':
-    for sid in ['12904']:
-        main(sid, '20210927_PGDIDwGj4Fp665gH')
+    for sid in ['13001']:
+        main(sid, '20211109_uE8B9qZCd2F1tmCm')
